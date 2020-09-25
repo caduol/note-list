@@ -69,6 +69,8 @@ export default {
         });
     },
     editNote(id) {
+      // TODO - Selecionar e aplicar efeito de troca de input
+      // TODO - O evento partirá do conteudo antes da edição
       let input = document.querySelector(".c-field-list-content-input");
       console.log(input, id);
       // db.ref(`notes/${id}`).set({
