@@ -25,7 +25,7 @@
                 :key="idx"
                 class="c-field-box-content-list-item list-group-item"
               >
-                <span class="h4">
+                <span class="lead">
                   {{ note.noteName }}
                 </span>
                 <div class="input-group">
