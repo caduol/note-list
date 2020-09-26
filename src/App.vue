@@ -1,14 +1,13 @@
 <template>
   <div id="app">
     <h1>Listagem de notas</h1>
-
     <div class="container">
-      <div class="row c-field">
-        <div class="c-field-add">
+      <div class="c-field">
+        <div class="row c-field-box">
           <div class="input-group">
             <input
               type="text"
-              class="form-control"
+              class="form-control c-field-box-input"
               v-model="noteName"
               placeholder="Name of note"
             />
@@ -17,24 +16,40 @@
             </button>
           </div>
         </div>
-        <ul class="c-field-list list-group">
-          <li v-for="(note, idx) in notes" :key="idx" class="list-group-item">
-            <div class="input-group c-field-list-content">
-              <span class="c-field-list-text">
-                {{ note.noteName }}
-              </span>
-              <input
-                type="text"
-                class="c-field-list-content-input"
-                v-model="editNote[idx]"
-              />
-              <div class="c-field-list-button">
-                <button @click="editNote(idx)">Edit</button>
-                <button @click="removeNote(idx)">Remove</button>
-              </div>
-            </div>
-          </li>
-        </ul>
+
+        <div class="row c-field-box">
+          <div class="c-field-box-content">
+            <ul class="c-field-box-content-list list-group">
+              <li
+                v-for="(note, idx) in notes"
+                :key="idx"
+                class="c-field-box-content-list-item list-group-item"
+              >
+                <span class="h4">
+                  {{ note.noteName }}
+                </span>
+                <div class="input-group">
+                  <input
+                    type="text"
+                    class="c-field-box-content-list-item-input form-control"
+                    v-model="editNote[idx]"
+                  />
+                  <div class="c-field-list-button">
+                    <button class="btn btn-xs btn-info" @click="editNote(idx)">
+                      Edit
+                    </button>
+                    <button
+                      class="btn btn-xs btn-danger"
+                      @click="removeNote(idx)"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -71,11 +86,11 @@ export default {
     editNote(id) {
       // TODO - Selecionar e aplicar efeito de troca de input
       // TODO - O evento partirá do conteudo antes da edição
-      let input = document.querySelector(".c-field-list-content-input");
-      console.log(input, id);
-      // db.ref(`notes/${id}`).set({
-      //   noteName: this.editNote[id],
-      // });
+      db.ref(`notes/${id}`).set({
+        noteName: this.editNote[id],
+      });
+
+      this.editNote[id] = "";
     },
     removeNote(id) {
       db.ref(`notes/${id}`).remove();
@@ -95,24 +110,28 @@ export default {
 }
 
 .c-field {
-  justify-content: center;
   margin: 20px 0;
-  &-add {
-    flex: 0 0 50%;
-  }
-  &-list {
-    flex: 0 0 60%;
-    list-style: none;
-    margin: 20px 0;
-    &-content {
-      color: rgb(117, 100, 110);
-      justify-content: space-between;
-      &-input {
-        display: none;
-      }
+
+  &-box {
+    justify-content: center;
+    &-input {
+      min-width: 20em;
     }
-    &-text {
-      margin-left: 50px;
+    &-content {
+      margin: 23px 0;
+      &-list {
+        &-item {
+          display: flex;
+          flex-direction: column;
+          align-items: stretch;
+          min-width: 450px;
+          span {
+            display: flex;
+          }
+          &-input {
+          }
+        }
+      }
     }
   }
 }
